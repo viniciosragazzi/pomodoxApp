@@ -48,44 +48,49 @@ body {
     left: 100%;
   }
 }
-.timerArea{
-  .timer{
-
+.timerArea {
+  .timer {
     position: relative;
     display: flex;
     justify-content: center;
-    .timerCircle{
+    .timerCircle {
       display: flex;
       justify-content: center;
       align-items: center;
-      svg{
+      svg {
         width: 150px;
         height: 150px;
         position: relative;
-        
-        circle{
+
+        circle {
           width: 150px;
           height: 150px;
           fill: none;
           stroke-width: 10px;
           stroke-dasharray: 440;
           stroke-dashoffset: 440;
-          transition: ease all;
-          &:nth-child(1){
+          transition: 1s;
+          &:nth-child(1) {
             stroke-dashoffset: 0;
           }
-          &:nth-child(2){
-
-
+          &:nth-child(2) {
           }
         }
       }
-        
     }
   }
-
 }
 
+select {
+  width: 100%;
+  background: none;
+  flex: 1;
+  outline: none;
+}
+select option {
+ color: white;
+ cursor: pointer;
+}
 @keyframes surgir {
   0% {
     opacity: 0;
@@ -138,8 +143,7 @@ body {
   }
 }
 
-
-@media (min-width:400px) and (min-height:650px){
+@media (min-width: 400px) and (min-height: 650px) {
   .timerArea {
     height: 50vh;
   }
@@ -148,7 +152,7 @@ body {
   }
 }
 
-@media  (min-height:650px){
+@media (min-height: 650px) {
   .timerArea {
     height: 50vh;
   }

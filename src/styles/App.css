@@ -71,11 +71,23 @@ body {
   stroke-width: 10px;
   stroke-dasharray: 440;
   stroke-dashoffset: 440;
-  transition: ease all;
+  transition: 1s;
 }
 .timerArea .timer .timerCircle svg circle:nth-child(1) {
   stroke-dashoffset: 0;
 }
+select {
+  width: 100%;
+  background: none;
+  flex: 1;
+  outline: none;
+}
+
+select option {
+  color: white;
+  cursor: pointer;
+}
+
 @-webkit-keyframes surgir {
   0% {
     opacity: 0;
@@ -86,6 +98,7 @@ body {
     transform: scale(1);
   }
 }
+
 @keyframes surgir {
   0% {
     opacity: 0;

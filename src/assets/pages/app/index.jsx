@@ -8,18 +8,39 @@ import PageComponent from "../../shared/components/pageComponent";
 import { DadosContext } from "../../shared/context/ContextApp";
 
 const AppPage = () => {
+  const {
+    showComponentPage,
+    setShowComponentPage,
+    currentStage,
+    setCurrentStage,
+    timerDurationMin,
+    setTimerDurationMin,
+    mode,
+    setMode,
+    stages,
+    setStages,
+  } = useContext(DadosContext);
 
-  const {showComponentPage, setShowComponentPage,currentStage, setCurrentStage,timerDurationMin, setTimerDurationMin, mode, setMode,stages, setStages} = useContext(DadosContext)
-
-  const [timeDuration, setTimerDuration] = useState(timerDurationMin*60)
+  const [timeDuration, setTimerDuration] = useState(timerDurationMin * 60);
   const [numb, setNumb] = useState(`${timerDurationMin}:00`);
   const [percent, setPercent] = useState(0);
   const [timerStarted, setTimerStarted] = useState(false);
   const [intervalId, setIntervalId] = useState(null); // adicione esta linha para armazenar a referência do intervalo
+  const [timerPaused, setTimerPaused] = useState(false);
 
+  const [currentCounter, setCurrentCounter] = useState(0);
+  const [currentSecs, setCurrentSecs] = useState(0);
+  const [currentPercentNumber, setCurrentPercentNumber] = useState(0);
+
+  const reiniciarTimer = () => {
+    clearInterval(intervalId); // use a função clearInterval para parar o intervalo
+    setTimerStarted(false);
+    setNumb(`${timerDurationMin}:00`);
+    setPercent(0);
+  };
   const startTime = () => {
     let counter = timeDuration;
-    let secs = 60
+    let secs = 60;
     let percentNumber = 0;
     setTimerStarted(true);
     setIntervalId(
@@ -27,41 +48,49 @@ const AppPage = () => {
         // armazene a referência da função setInterval
         if (counter == 0) {
           clearInterval(intervalId); // use a função clearInterval para parar o intervalo
-          setTimerStarted(false);
+          reiniciarTimer();
         } else {
           counter--;
-         secs--
-         if(secs < 0){
-          secs = 59
-         }
-         if(secs < 10){
-          secs = '0'+secs 
-         }
+          secs--;
+          setCurrentSecs(secs);
+          setCurrentCounter(counter);
+          if (secs < 0) {
+            secs = 59;
+          }
+          if (secs < 10) {
+            secs = "0" + secs;
+          }
           percentNumber++;
-          setNumb(Math.floor((counter/60))+':'+secs);
+          setCurrentPercentNumber(percentNumber);
+          setNumb(Math.floor(counter / 60) + ":" + secs);
           setPercent((percentNumber / timeDuration) * 100);
         }
       }, 1000)
     );
   };
 
-  const reiniciarTimer = () => {
-    clearInterval(intervalId); // use a função clearInterval para parar o intervalo
-    setTimerStarted(false);
-    setNumb(`${timerDurationMin}:00`)
-    setPercent(0)
+  const playTimer = () => {
+    if (!timerStarted) {
+      console.log(currentCounter);
+    }
   };
 
-
-
+  const pausarTimer = () => {
+    clearInterval(intervalId); // use a função clearInterval para parar o intervalo
+    setTimerStarted(false);
+    setTimerPaused(true);
+  };
 
   return (
-    <div className="app bg-dark w-full h-full min-h-screen flex flex-col relative items-center">
-      <NavLink className={`${mode === 'timer' ? 'opacity-1' : 'opacity-0'} self-start`} to="/">
+    <div className="app overflow-hidden bg-dark w-full h-full min-h-screen flex flex-col relative items-center">
+      <NavLink
+        className={`${mode === "timer" ? "opacity-1" : "opacity-0"} self-start`}
+        to="/"
+      >
         <BiArrowBack className="relative  text-white text-3xl m-4 hover:text-blue active:scale-95 transition-transform" />
       </NavLink>
-      <div className="container overflow-hidden flex flex-col gap-12 items-center justify-around relative">
-        <PageComponent/>
+      <PageComponent />
+      <div className="container surgir overflow-hidden flex flex-col gap-12 items-center justify-around relative">
         <header className=" px-4 self-start">
           <h2 className="text-white text-sm md:text-lg">Pomodox Timer</h2>
         </header>
@@ -114,11 +143,20 @@ const AppPage = () => {
           {timerStarted ? (
             <button
               onClick={() => {
-                reiniciarTimer();
+                pausarTimer();
               }}
               className="text-white bg-card w-20 text-sm py-1 mt-8 rounded-lg font-semibold"
             >
-              Reiniciar
+              Pause
+            </button>
+          ) : timerPaused ? (
+            <button
+              onClick={() => {
+                playTimer();
+              }}
+              className="text-dark bg-blue w-20 text-sm py-1 mt-8 rounded-lg font-semibold"
+            >
+              Play
             </button>
           ) : (
             <button
@@ -132,25 +170,49 @@ const AppPage = () => {
           )}
         </div>
       </div>
-      <div className="barBottom w-full h-14 fixed bottom-0 ">
+      <div className="barBottom w-full h-14 fixed bottom-0 z-50 ">
         <nav className="w-full h-full flex justify-center items-center">
-          <ul className=" flex justify-center gap-8 text-white list-none">
-            <li className=" cursor-pointer hover:scale-125 transition-transform" onClick={(e) =>{setMode('mission'); setShowComponentPage(true)}}>
+          <ul className=" flex justify-center gap-8 text-white list-none text-lg">
+            <li
+              className=" cursor-pointer hover:scale-125 transition-transform"
+              onClick={(e) => {
+                setMode("mission");
+                setShowComponentPage(true);
+              }}
+            >
               <FaFlagCheckered
                 className={`${mode === "mission" ? "active text-blue" : null}`}
               />
             </li>
-            <li className=" cursor-pointer hover:scale-125 transition-transform"  onClick={(e) =>{setMode('timer'); setShowComponentPage(false)}}>
+            <li
+              className=" cursor-pointer hover:scale-125 transition-transform"
+              onClick={(e) => {
+                setMode("timer");
+                setShowComponentPage(false);
+              }}
+            >
               <AiOutlineClockCircle
                 className={`${mode === "timer" ? "active text-blue" : null}`}
               />
             </li>
-            <li className=" cursor-pointer hover:scale-125 transition-transform"  onClick={(e) =>{setMode('settings'); setShowComponentPage(true)}}>
+            <li
+              className=" cursor-pointer hover:scale-125 transition-transform"
+              onClick={(e) => {
+                setMode("settings");
+                setShowComponentPage(true);
+              }}
+            >
               <GoSettings
                 className={`${mode === "settings" ? "active text-blue" : null}`}
               />
             </li>
-            <li className=" cursor-pointer hover:scale-125 transition-transform"  onClick={(e) =>{setMode('user'); setShowComponentPage(true)}}>
+            <li
+              className=" cursor-pointer hover:scale-125 transition-transform"
+              onClick={(e) => {
+                setMode("user");
+                setShowComponentPage(true);
+              }}
+            >
               <BiUser
                 className={`${mode === "user" ? "active text-blue" : null}`}
               />
