@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.surgir {
+  opacity: 0;
+  transform: scale(0.5);
+  -webkit-animation: surgir 0.5s ease forwards;
+          animation: surgir 0.5s ease forwards;
+}
+
+.treme {
+  -webkit-animation: tremes 1s ease infinite;
+          animation: tremes 1s ease infinite;
+}
+
+.circle {
+  position: relative;
+}
+.circle.atualStageCircle {
+  transform: scale(1.2);
+}
+.circle.atualStageCircle::before {
+  content: "";
+  width: 70%;
+  height: 70%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  border-radius: 100%;
+}
+.circle.atualStageCircle::after {
+  left: 80%;
+}
+.circle:last-child::after {
+  display: none;
+}
+.circle::after {
+  content: "";
+  position: absolute;
+  width: 125%;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 100%;
+}
+
+.timerArea .timer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.timerArea .timer .timerCircle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.timerArea .timer .timerCircle svg {
+  width: 150px;
+  height: 150px;
+  position: relative;
+}
+.timerArea .timer .timerCircle svg circle {
+  width: 150px;
+  height: 150px;
+  fill: none;
+  stroke-width: 10px;
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+  transition: ease all;
+}
+.timerArea .timer .timerCircle svg circle:nth-child(1) {
+  stroke-dashoffset: 0;
+}
+@-webkit-keyframes surgir {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes surgir {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes tremes {
+  10% {
+    transform: rotate(-6deg);
+  }
+  25% {
+    transform: rotate(6deg);
+  }
+  35% {
+    transform: rotate(-6deg);
+  }
+  45% {
+    transform: rotate(6deg);
+  }
+  55% {
+    transform: rotate(-6deg);
+  }
+  65% {
+    transform: rotate(6deg);
+  }
+  75% {
+    transform: rotate(-6deg);
+  }
+  85% {
+    transform: rotate(6deg);
+  }
+  95% {
+    transform: rotate(-6deg);
+  }
+  10% {
+    transform: rotate(6deg);
+  }
+}
+@keyframes tremes {
+  10% {
+    transform: rotate(-6deg);
+  }
+  25% {
+    transform: rotate(6deg);
+  }
+  35% {
+    transform: rotate(-6deg);
+  }
+  45% {
+    transform: rotate(6deg);
+  }
+  55% {
+    transform: rotate(-6deg);
+  }
+  65% {
+    transform: rotate(6deg);
+  }
+  75% {
+    transform: rotate(-6deg);
+  }
+  85% {
+    transform: rotate(6deg);
+  }
+  95% {
+    transform: rotate(-6deg);
+  }
+  10% {
+    transform: rotate(6deg);
+  }
+}
+@media (min-width: 400px) and (min-height: 650px) {
+  .timerArea {
+    height: 50vh;
+  }
+  .timerArea .timer .timerCircle {
+    transform: scale(1.5);
+  }
+}
+@media (min-height: 650px) {
+  .timerArea {
+    height: 50vh;
+  }
+  .timerArea .timer .timerCircle {
+    transform: scale(1.5);
+  }
+}/*# sourceMappingURL=App.css.map */
